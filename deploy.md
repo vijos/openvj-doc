@@ -16,7 +16,9 @@ Deployment
    date.timezone = Asia/Shanghai
    ```
 
-3. Grant write permission
+3. serialize handler in `php.ini` must be php.
+
+4. Grant write permission
 
    ```sh
    chmod -R 777 app/cache

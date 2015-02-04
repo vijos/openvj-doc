@@ -46,3 +46,14 @@ clientSideToken 格式为 `{uid}|{clientToken}`
 
 - uid, token
 - expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
+
+## Session
+
+| field | type           | description |
+|--------------------------------------|
+| _id   | string         | session id  |
+| expireat | date        | 过期时间      |
+| data  | document       | 数据         |
+
+### Index
+- expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
