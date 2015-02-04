@@ -45,4 +45,4 @@ clientSideToken 格式为 `{uid}|{clientToken}`
 ### Index
 
 - uid, token
-- expireat
+- expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
