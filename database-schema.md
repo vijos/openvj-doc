@@ -1,7 +1,7 @@
 ## User
 
 | field | type           | description |
-|--------------------------------------|
+| ----- | -------------- | ----------- |
 | _id   | int64          |             |
 | user  | string         | 用户名       |
 | luser | string         | 小写用户名    |
@@ -31,7 +31,7 @@
 ## RememberMeToken
 
 | field | type           | description |
-|--------------------------------------|
+| ----- | -------------- | ----------- |
 | _id   | mongoid        |             |
 | uid   | int64          | 用户 ID      |
 | token | string         | Hash(token) |
@@ -50,7 +50,7 @@ clientSideToken 格式为 `{uid}|{clientToken}`
 ## Session
 
 | field | type           | description |
-|--------------------------------------|
+| ----- | -------------- | ----------- |
 | _id   | string         | session id  |
 | expireat | date        | 过期时间      |
 | data  | document       | 数据         |
