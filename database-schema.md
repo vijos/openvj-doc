@@ -40,7 +40,7 @@
 | expireat | date        | 过期时间      |
 
 其中，token 为 `hash(clientSideToken)`
-clientSideToken 格式为 `{uid}|{clientToken}`
+clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 
 ### Index
 
