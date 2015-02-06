@@ -57,3 +57,18 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 
 ### Index
 - expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
+
+## LoginLog
+
+| field | type           | description |
+| ----- | -------------- | ----------- |
+| _id   | mongoid        |             |
+| uid   | int64          | 用户 ID      |
+| at    | date           | 登录时间      |
+| type  | string         | 登录类型      |
+| ua    | string         | User-Agent  |
+| ip    | string         | IP          |
+
+### Index
+
+- uid, at(desc)
