@@ -1,3 +1,5 @@
+# 用户、权限、域
+
 ## User
 
 | field | type           | description |
@@ -28,6 +30,81 @@
 - luser
 - lmail
 
+## UserRole
+
+| field | type           | description |
+| ----- | -------------- | ----------- |
+| _id   | mongoid        |             |
+| uid   | int64          |             |
+| d.{domain} | string[]  | {domain} 域下的角色 |
+
+### Example
+
+```js
+{
+  _id: ObjectId(..),
+  uid: 1,
+  d: {
+    "000000000000000000000000": ["MEMBER"]
+    "123456781234567812345678": ["OWNER", "MEMBER"]
+  }
+}
+```
+
+### Index
+
+- uid
+
+## PermissionAllow
+
+| field | type           | description     |
+| ----- | -------------- | --------------- |
+| _id   | mongoid        |                 |
+| domain | mongoid       | 域               |
+| val   | string         | 权限名           |
+| role  | string         | 角色名           |
+
+### Index
+
+- domain, val, role
+
+## Role
+
+| field | type           | description     |
+| ----- | -------------- | --------------- |
+| _id   | mongoid        |                 |
+| name  | string         | 角色名           |
+| internal | boolean     | 是否是系统内部角色 |
+| domain | mongoid       | 所属域           |
+| owner | int64          | 创建者           |
+| at    | date           | 创建时间         |
+
+### Note
+
+- 该表仅供管理页面中管理权限时使用
+- 对于系统内部角色，`internal = true`，无 `domain`, `owner`, `at`，管理页面中不能删除
+- 对于非系统内部角色，`name` 前必须包含前缀 `$$`
+
+以下是系统内部角色：
+
+- EVERYONE（所有人，含未登录用户）
+- OWNER（资源所有者）
+- DOMAIN_OWNER（域所有者）
+- DOMAIN_MEMBER（域成员）
+
+# 会话、登录
+
+## Session
+
+| field | type           | description |
+| ----- | -------------- | ----------- |
+| _id   | string         | session id  |
+| expireat | date        | 过期时间      |
+| data  | document       | 数据         |
+
+### Index
+- expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
+
 ## RememberMeToken
 
 | field | type           | description |
@@ -45,17 +122,6 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 ### Index
 
 - uid, token
-- expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
-
-## Session
-
-| field | type           | description |
-| ----- | -------------- | ----------- |
-| _id   | string         | session id  |
-| expireat | date        | 过期时间      |
-| data  | document       | 数据         |
-
-### Index
 - expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
 
 ## LoginLog
