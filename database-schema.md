@@ -19,6 +19,7 @@
 
 ```js
 {
+  _id: "UserContactType",
   values: ["QQ", "Mail"]
 }
 ```
