@@ -11,7 +11,7 @@
 
 ```js
 {
-  values: [string valueN]
+  values: string[]
 }
 ```
 
@@ -110,12 +110,17 @@
 - 对于系统内部角色，`internal = true`，无 `domain`, `owner`, `at`，管理页面中不能删除
 - 对于非系统内部角色，`name` 前必须包含前缀 `$$`
 
-以下是系统内部角色：
+### 系统内部角色
 
 - EVERYONE（所有人，含未登录用户）
 - OWNER（资源所有者）
 - DOMAIN_OWNER（域所有者）
 - DOMAIN_MEMBER（域成员）
+
+### Index
+
+- domain, name
+- internal, name
 
 ## UserInfo
 
@@ -137,9 +142,9 @@
 
 ```js
 {
-  type: <string>
-  val: <string>
-  visibility: <int>
+  type: string
+  val: string
+  visibility: int
 }
 ```
 
