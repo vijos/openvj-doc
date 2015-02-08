@@ -117,6 +117,32 @@
 - DOMAIN_OWNER（域所有者）
 - DOMAIN_MEMBER（域成员）
 
+## UserInfo
+
+| field | type           | description | which domain  |
+| ----- | -------------- | ----------- | ------------- |
+| _id   | mongoid        |             | both          |
+| uid   | int64          |             | both          |
+| domain | mongoid       | 所属域       |               |
+| pref  | document       | 偏好设置      | both          |
+| sig   | string         | 签名 HTML    | root          |
+| sigraw | string        | 原始签名      | root          |
+| contacts | contact[]   | 联系方式      | root          |
+| rp    | float          | RP          | both          |
+| rp_s  | float          | RP 静态部分   | both          |
+| rank  | int64          | 排名         | both          |
+| level | int64          | 等级         | both          |
+
+### type:contact
+
+```js
+{
+  type: <string>
+  val: <string>
+  visibility: <int>
+}
+```
+
 # 会话、登录
 
 ## Session
