@@ -34,6 +34,15 @@ For auto-increasing user collection id.
 }
 ```
 
+## System.FilterKeyword
+
+```js
+{
+  content: string[],
+  name: string[]
+}
+```
+
 # 用户、权限、域
 
 ## User
