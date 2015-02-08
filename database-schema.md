@@ -7,6 +7,16 @@
 | _id   | string         | Key         |
 | ...   | any            | data        |
 
+## System.UserCounter
+
+For auto-increasing user collection id.
+
+```js
+{
+  count: int
+}
+```
+
 ## System.UserContactType
 
 ```js
