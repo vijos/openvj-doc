@@ -1,3 +1,28 @@
+# 系统
+
+## System
+
+| field | type           | description |
+| ----- | -------------- | ----------- |
+| _id   | string         | Key         |
+| ...   | any            | data        |
+
+## System.UserContactType
+
+```js
+{
+  values: [string valueN]
+}
+```
+
+### Example:
+
+```js
+{
+  values: ["QQ", "Mail"]
+}
+```
+
 # 用户、权限、域
 
 ## User
