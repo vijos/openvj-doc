@@ -13,6 +13,7 @@ For auto-increasing user collection id.
 
 ```js
 {
+  _id: 'UserCounter',
   count: int
 }
 ```
@@ -21,6 +22,7 @@ For auto-increasing user collection id.
 
 ```js
 {
+  _id: 'UserContactType',
   values: string[]
 }
 ```
@@ -29,8 +31,8 @@ For auto-increasing user collection id.
 
 ```js
 {
-  _id: "UserContactType",
-  values: ["QQ", "Mail"]
+  _id: 'UserContactType',
+  values: ['QQ', 'Mail']
 }
 ```
 
@@ -38,6 +40,7 @@ For auto-increasing user collection id.
 
 ```js
 {
+  _id: 'UserContactType',
   content: string[],
   name: string[]
 }
