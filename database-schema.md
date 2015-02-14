@@ -75,8 +75,9 @@ For auto-increasing user collection id.
 
 ### Index
 
-- luser
-- lmail
+- uid(unique)
+- luser(unique)
+- lmail(uniqie)
 
 ## UserRole
 
@@ -93,15 +94,15 @@ For auto-increasing user collection id.
   _id: ObjectId(..),
   uid: 1,
   d: {
-    "000000000000000000000000": ["MEMBER"]
-    "123456781234567812345678": ["OWNER", "MEMBER"]
+    "000000000000000000000000": ["DOMAIN_MEMBER"]
+    "123456781234567812345678": ["DOMAIN_OWNER", "DOMAIN_MEMBER"]
   }
 }
 ```
 
 ### Index
 
-- uid
+- uid(unique)
 
 ## PermissionAllow
 
@@ -149,17 +150,17 @@ For auto-increasing user collection id.
 
 | field | type           | description | which domain  |
 | ----- | -------------- | ----------- | ------------- |
-| _id   | mongoid        |             | both          |
-| uid   | int64          |             | both          |
-| domain | mongoid       | 所属域       |               |
-| pref  | document       | 偏好设置      | both          |
+| _id   | mongoid        |             | all           |
+| uid   | int64          |             | all           |
+| domain | mongoid       | 所属域       | all           |
+| pref  | document       | 偏好设置      | all           |
 | sig   | string         | 签名 HTML    | root          |
 | sigraw | string        | 原始签名      | root          |
 | contacts | contact[]   | 联系方式      | root          |
-| rp    | float          | RP          | both          |
-| rp_s  | float          | RP 静态部分   | both          |
-| rank  | int64          | 排名         | both          |
-| level | int64          | 等级         | both          |
+| rp    | float          | RP           | all          |
+| rp_s  | float          | RP 静态部分   | all           |
+| rank  | int64          | 排名         | all           |
+| level | int64          | 等级         | all           |
 
 ### type:contact
 
@@ -170,6 +171,35 @@ For auto-increasing user collection id.
   visibility: int
 }
 ```
+
+### Index
+
+- uid,domain(unique)
+
+## Domain
+
+// unstable
+
+| field | type           | description     |
+| ----- | -------------- | --------------- |
+| _id   | mongoid        |                 |
+| name  | string         | 域名称           |
+| owner | int64          | 创建者           |
+| at    | mongodate      | 创建时间         |
+| invalid | boolean      | 是否无效         |
+
+## DomainLog
+
+| field | type           | description     | which type  |
+| ----- | -------------- | --------------- | ----------- |
+| _id   | mongoid        |                 | all         |
+| uid   | int64          | 操作用户          | all         |
+| at    | mongodate      | 时间             | all         |
+| type  | string         | 操作类型          | all         |
+| ua    | string         | User-Agent      | all         |
+| ip    | string         | IP              | all         |
+| target_uid | int64       | 被操作用户        | join      |
+| target_domain | mongoid  | 加入的域          | join      |
 
 # 会话、登录
 
