@@ -41,7 +41,7 @@ For auto-increasing user collection id.
 ```js
 {
   _id: 'UserContactType',
-  content: string[],
+  general: string[],
   name: string[]
 }
 ```
