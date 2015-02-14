@@ -52,7 +52,8 @@ For auto-increasing user collection id.
 
 | field | type           | description |
 | ----- | -------------- | ----------- |
-| _id   | int64          |             |
+| _id   | mongoid        |             |
+| uid   | int64          | UserID      |
 | user  | string         | 用户名       |
 | luser | string         | 小写用户名    |
 | mail  | string         | Email       |
@@ -67,7 +68,6 @@ For auto-increasing user collection id.
 | loginat | date         | 上次登录时间  |
 | loginip | string       | 上次登录 IP   |
 | banned | boolean       | 是否已停用    |
-| deleted | boolean      | 是否已删除    |
 
 其中，hash 为以下两种格式中的一种(in `\VJ\User\PasswordEncoder`):
 - `vj2|username|{hash-hex}`
