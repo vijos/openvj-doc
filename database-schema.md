@@ -63,9 +63,9 @@ For auto-increasing user collection id.
 | hash  | string         |             |
 | g     | string         | Gravatar mail |
 | gender | int64         | 性别         |
-| regat | date           | 注册时间      |
+| regat | mongodate      | 注册时间      |
 | regip | string         | 注册 IP      |
-| loginat | date         | 上次登录时间  |
+| loginat | mongodate    | 上次登录时间  |
 | loginip | string       | 上次登录 IP   |
 | banned | boolean       | 是否已停用    |
 
@@ -126,7 +126,7 @@ For auto-increasing user collection id.
 | internal | boolean     | 是否是系统内部角色 |
 | domain | mongoid       | 所属域           |
 | owner | int64          | 创建者           |
-| at    | date           | 创建时间         |
+| at    | mongodate      | 创建时间         |
 
 ### Note
 
@@ -166,8 +166,8 @@ For auto-increasing user collection id.
 
 ```js
 {
-  type: string
-  val: string
+  type: string,
+  val: string,
   visibility: int
 }
 ```
@@ -211,7 +211,7 @@ For auto-increasing user collection id.
 | purpose | string       | 令牌类型      |
 | identifier | any       | 唯一标示符    |
 | token | string         | 令牌         |
-| expireat | date        | 过期时间      |
+| expireat | mongodate   | 过期时间      |
 | data  | document       | 附加数据      |
 
 ### Index
@@ -227,7 +227,7 @@ For auto-increasing user collection id.
 | field | type           | description |
 | ----- | -------------- | ----------- |
 | _id   | string         | session id  |
-| expireat | date        | 过期时间      |
+| expireat | mongodate   | 过期时间      |
 | data  | document       | 数据         |
 
 ### Index
@@ -243,7 +243,7 @@ For auto-increasing user collection id.
 | token | string         | Hash(token) |
 | ua    | string         | 记忆时 User-Agent |
 | ip    | string         | 记忆时 IP    |
-| expireat | date        | 过期时间      |
+| expireat | mongodate   | 过期时间      |
 
 其中，token 为 `hash(clientSideToken)`
 clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
@@ -259,7 +259,7 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 | ----- | -------------- | ----------- |
 | _id   | mongoid        |             |
 | uid   | int64          | 用户 ID      |
-| at    | date           | 登录时间      |
+| at    | mongodate      | 登录时间      |
 | type  | string         | 登录类型      |
 | ua    | string         | User-Agent  |
 | ip    | string         | IP          |
@@ -267,3 +267,50 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 ### Index
 
 - uid, at(desc)
+
+# 评论与投票
+
+## (abstract) Votable
+
+| field | type           | description   |
+| ----- | -------------- | ------------- |
+| voting | int64         | 投票值         |
+| votes | vote[]         | 投票          |
+
+### type:vote
+
+```js
+{
+  uid: int,
+  at: mongodate,
+  v: int // { -1, 1 }
+}
+```
+
+## Comment : Votable
+
+| field | type           | description   |
+| ----- | -------------- | ------------- |
+| _id   | mongoid        |               |
+| ref   | string         | 关联键         |
+| owner | int64          | 创建者         |
+| at    | mongodate      | 创建时间       |
+| raw   | string         | Markdown 内容 |
+| html  | string         | HTML 内容     |
+| replies | reply[]      | 子回复         |
+| deleted | boolean      | 是否已删除      |
+| modifyat | mongodate   | 修改时间 optional |
+
+### type:reply
+
+```js
+{
+  id: string,
+  owner: int,
+  at: mongodate,
+  raw: string,
+  html: string,
+  deleted: boolean,
+  modifyat: mongodate //optional
+}
+```
