@@ -201,6 +201,25 @@ For auto-increasing user collection id.
 | target_uid | int64       | 被操作用户        | join      |
 | target_domain | mongoid  | 加入的域          | join      |
 
+# 令牌
+
+## Token
+
+| field | type           | description |
+| ----- | -------------- | ----------- |
+| _id   | mongoid        |             |
+| purpose | string       | 令牌类型      |
+| identifier | any       | 唯一标示符    |
+| token | string         | 令牌         |
+| expireat | date        | 过期时间      |
+| data  | document       | 附加数据      |
+
+### Index
+
+- purpose, identifier(unique)
+- purpose, token
+- expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
+
 # 会话、登录
 
 ## Session
@@ -212,6 +231,7 @@ For auto-increasing user collection id.
 | data  | document       | 数据         |
 
 ### Index
+
 - expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
 
 ## RememberMeToken
