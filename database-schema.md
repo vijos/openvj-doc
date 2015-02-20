@@ -305,7 +305,7 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 
 ```js
 {
-  id: string,
+  _id: mongoid,
   owner: int,
   at: mongodate,
   raw: string,
@@ -314,3 +314,7 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
   modifyat: mongodate //optional
 }
 ```
+
+### Index
+
+- ref, deleted, _id(asc)
