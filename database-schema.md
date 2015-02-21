@@ -275,15 +275,15 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 | field | type           | description   |
 | ----- | -------------- | ------------- |
 | voting | int64         | 投票值         |
-| votes | vote[]         | 投票          |
+| votes | voteDocument   | 投票          |
 
-### type:vote
+### type:voteDocument
 
 ```js
 {
-  uid: int,
-  at: mongodate,
-  v: int // { -1, 1 }
+  uid_1: v_1,
+  uid_2: v_2,
+  ...
 }
 ```
 
