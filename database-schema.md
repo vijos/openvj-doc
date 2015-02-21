@@ -143,8 +143,8 @@ For auto-increasing user collection id.
 
 ### Index
 
-- domain, name
-- internal, name
+- domain, name(unique)
+- internal, name(unique)
 
 ## UserInfo
 
