@@ -5,13 +5,15 @@ Deployment
 
 ### Mac OS X
 
-1. Install elastic search (required 1.4.0 currently)
+1. Install elastic search (1.4.0+)
 
    ```bash
    brew install elasticsearch
    ```
 
    How to install older version: http://effectif.com/mac-os-x/installing-specific-version-of-homebrew-formula
+
+   Elastic search book: http://es.xiaoleilu.com/010_Intro/00_README.html
 
 2. Install maven:
 
@@ -97,13 +99,6 @@ Deployment
    "text":"世界你好"
    }'
    ```
-
-
-### FAQ
-
-1. `failed to find analyzer type [ik] or tokenizer for [ik]`
-
-   Elastic search is too new.
 
 ## PHP Backend
 
