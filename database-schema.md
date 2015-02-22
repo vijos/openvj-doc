@@ -46,6 +46,15 @@ For auto-increasing user collection id.
 }
 ```
 
+## System.ProblemTemplate
+
+```js
+{
+  _id: 'ProblemTemplate',
+  markdown: string
+}
+```
+
 # 用户、权限、域
 
 ## User
@@ -318,3 +327,45 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 ### Index
 
 - ref, deleted, _id(asc)
+
+# 题目
+
+## Problem : Votable
+
+| field | type           | description |
+| ----- | -------------- | ----------- |
+| _id   | mongoid        |             |
+| owner | int64          | 所有者       |
+| at    | mongodate      | 创建时间      |
+| title | string         | 题目标题      |
+| link  | string         | URL         |
+| llink | string         | 小写 URL     |
+| raw   | string         | 题目内容 Markdown |
+| html  | string         | HTML         |
+| visible | mongoid[]    | 可见域        |
+| tags  | tag[]          | 标签         |
+| history | bin          | 历史版本 gzip (json_encode(history[])) |
+
+### type:tag
+
+```js
+{
+  type: string,
+  parts: mixed[],
+  name: string
+}
+```
+
+### type:history
+
+```js
+{
+  owner: int,
+  at: mongodate,
+  raw: string
+}
+```
+
+### Index
+
+- owner, llink(unique)
