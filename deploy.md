@@ -104,6 +104,15 @@ Deployment
 
 0. Configure and install PHP 5.6+ if your system doesn't have one.
 
+   Mac:
+
+   ```
+   brew install curl --with-openssl
+   brew install php56 --with-homebrew-curl
+   brew install php56-mongo php56-redis
+   ```
+
+   Linux:
    ```
    tar xf php.5.6.x.tar.xz
    cd php-5.6.x
