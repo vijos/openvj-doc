@@ -135,6 +135,19 @@ Deployment
    composer install
    ```
 
+2. Install front-end components.
+
+   ```sh
+   cd web
+   npm install
+   bower install
+   gulp shared:ext
+   gulp shared:lib
+   gulp shared:ui
+   gulp shared:core
+   gulp page:scripts
+   ```
+
 2. Set default timezone in `php.ini`.
 
    ```ini
