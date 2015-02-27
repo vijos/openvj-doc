@@ -252,6 +252,7 @@ For auto-increasing user collection id.
 | token | string         | Hash(token) |
 | ua    | string         | 记忆时 User-Agent |
 | ip    | string         | 记忆时 IP    |
+| at    | mongodate      | 最后一次使用时间 |
 | expireat | mongodate   | 过期时间      |
 
 其中，token 为 `hash(clientSideToken)`
