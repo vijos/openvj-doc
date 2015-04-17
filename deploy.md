@@ -3,15 +3,17 @@ Deployment
 
 ## MongoDB
 
-You should enable WiredTiger storage engine. [Upgrade MongoDB to 3.0](http://docs.mongodb.org/manual/release-notes/3.0-upgrade/)
+OpenVJ requires MongoDB 3.0 or above and you should enable the WiredTiger storage engine.
 
-### Mac OS X
+See [Upgrade MongoDB to 3.0](http://docs.mongodb.org/manual/release-notes/3.0-upgrade/) for upgrading steps.
+
+### OS X
 
 Recommmended configuration file `/usr/local/etc/mongod.conf` for Homebrew:
 
 ```yaml
 storage:
-  dbPath: /usr/local/var/mongodb
+  dbPath: /usr/local/var/mongodb   # for other OS, modify this line
   directoryPerDB: true
   engine: wiredTiger
   journal:
@@ -19,36 +21,38 @@ storage:
 
 systemLog:
   destination: file
-  path: /usr/local/var/log/mongodb/mongo.log
+  path: /usr/local/var/log/mongodb/mongo.log  # for other OS, modify this line
   logAppend: true
 
 net:
   bindIp: 127.0.0.1
 ```
 
-## Elastic search
+## Elastic Search
 
-### Mac OS X
+OpenVJ uses Elastic Search to provide searching feature.
+
+### OS X
 
 1. Install elastic search (1.4.0+)
 
-   ```bash
+   ```sh
    brew install elasticsearch
    ```
 
    How to install older version: http://effectif.com/mac-os-x/installing-specific-version-of-homebrew-formula
 
-   Elastic search book: http://es.xiaoleilu.com/010_Intro/00_README.html
+   Elastic Search book: http://es.xiaoleilu.com/010_Intro/00_README.html
 
 2. Install maven:
 
-   ```bash
+   ```sh
    brew install maven
    ```
 
 3. Build ik plugin with maven
 
-   ```bash
+   ```sh
    cd /tmp
    wget https://github.com/medcl/elasticsearch-analysis-ik/archive/master.zip
    unzip master.zip
@@ -58,7 +62,7 @@ net:
 
 4. Copy files & enable plugin index
 
-   ```bash
+   ```sh
    cd /tmp/elasticsearch-analysis-ik-master
    mkdir /usr/local/var/lib/elasticsearch/plugins/analysis-ik
    cp target/releases/elasticsearch-analysis-ik-1.2.9.zip /usr/local/var/lib/elasticsearch/plugins/analysis-ik/
@@ -70,7 +74,7 @@ net:
 
    Append `/usr/local/opt/elasticsearch/config/elasticsearch.yml`:
 
-   ```yml
+   ```yaml
    index:
      analysis:
        analyzer:
@@ -88,14 +92,14 @@ net:
 
 5. reload elastic search
 
-   ```bash
+   ```sh
    launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.elasticsearch.plist
    launchctl load ~/Library/LaunchAgents/homebrew.mxcl.elasticsearch.plist
    ```
 
 6. test
 
-   ```bash
+   ```sh
    # 创建索引
    curl -XPUT http://localhost:9200/index
 
@@ -129,16 +133,17 @@ net:
 
 1. Configure and install PHP 5.6+ if your system doesn't have one.
 
-   Mac:
-
-   ```
+   OS X (Homebrew):
+   
+   ```sh
    brew install curl --with-openssl
    brew install php56 --with-homebrew-curl
    brew install php56-mongo php56-redis
    ```
 
-   Linux:
-   ```
+   Linux (install from source):
+   
+   ```sh
    tar xf php.5.6.x.tar.xz
    cd php-5.6.x
    ./configure --enable-fpm --enable-mbstring --with-openssl --with-curl
@@ -147,9 +152,9 @@ net:
    sudo pecl install redis mongo
    ```
    
-   Load the extensions in php.ini
+   Be sure that you load the extensions in `php.ini`
    
-   ```
+   ```ini
    extension=redis.so
    extension=mongo.so
    ```
@@ -186,6 +191,98 @@ net:
    chmod -R 777 app/cache
    chmod -R 777 app/logs
    ```
+
+## Server Configuration
+
+### Apache
+
+1. Enable `mod_rewrite`:
+
+   ```apache
+   LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+   ```
+
+2. Sample configuration for HTTP server running on `80` port:
+
+   ```apache
+   <VirtualHost *:80>
+       DocumentRoot /home/to/project/openvj/web
+       ServerName openvj.org
+       ServerAlias www.openvj.org static.openvj.org
+
+       <Directory "/home/to/project/openvj/web">
+           <IfModule mod_rewrite.c>
+               RewriteEngine On
+               RewriteCond %{REQUEST_FILENAME} !-f
+               RewriteRule ^(.*)$ app.php [L]
+           </IfModule>
+       </Directory>
+   </VirtualHost>
+   ```
+
+### Nginx
+
+Sample configuration for HTTP server running on `80` port:
+
+```nginx
+server {
+    listen 80 default;
+    server_name openvj.org www.openvj.org static.openvj.org;
+
+    root /home/to/project/openvj/root;
+    
+    location / {
+        if (!-e $request_filename) {
+            rewrite . /app.php last;
+        }
+    }
+
+    error_page 404 /;
+	
+    location ~ \.php$ {
+        fastcgi_pass  localhost:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include       fastcgi_params;
+    }
+
+    location ~ ^(.*)(/)(\..+)(.*)$ {
+        deny all;
+    }
+}
+```
+
+### Performance Note
+
+1. use unix socket for php-fpm:
+   
+   In nginx:
+   
+   ```nginx
+   # With php5-cgi alone:
+   fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
+   # With php5-fpm: fastcgi_pass
+   # unix:/var/run/php5-fpm.sock;
+   ```
+   
+   In php-fpm:
+   
+   ```ini
+   listen = /var/run/php-fpm/php-fpm.sock
+   ```
+
+2. enable gzip for all responses:
+   
+   In nginx:
+   
+   ```nginx
+   gzip on;
+   gzip_buffers 16 64k;
+   gzip_http_version 1.1;
+   gzip_comp_level 9;
+   gzip_types text/plain application/x-javascript text/css application/json application/xml text/javascript;
+   ```
+
+## Memorandum
 
 Before each production deployment:
 
