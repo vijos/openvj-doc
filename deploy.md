@@ -229,7 +229,7 @@ server {
     listen 80 default;
     server_name openvj.org www.openvj.org static.openvj.org;
 
-    root /home/to/project/openvj/root;
+    root /home/to/project/openvj/web;
     
     location / {
         if (!-e $request_filename) {
