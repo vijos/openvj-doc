@@ -127,7 +127,7 @@ net:
 
 ## PHP Backend
 
-0. Configure and install PHP 5.6+ if your system doesn't have one.
+1. Configure and install PHP 5.6+ if your system doesn't have one.
 
    Mac:
 
@@ -154,13 +154,13 @@ net:
    extension=mongo.so
    ```
 
-1. Install composer & components.
+2. Install composer & components.
    
    ```sh
    composer install
    ```
 
-2. Install front-end components.
+3. Install front-end components.
 
    ```sh
    cd web
@@ -173,16 +173,14 @@ net:
    gulp page:scripts
    ```
 
-2. Set default timezone in `php.ini`.
+4. Set default timezone in `php.ini`.
 
    ```ini
    [Date]
    date.timezone = Asia/Shanghai
    ```
 
-3. serialize handler in `php.ini` must be php.
-
-4. Grant write permission
+5. Grant write permission
 
    ```sh
    chmod -R 777 app/cache
