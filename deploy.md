@@ -1,6 +1,31 @@
 Deployment
 ==========
 
+## MongoDB
+
+You should enable WiredTiger storage engine. [Upgrade MongoDB to 3.0](http://docs.mongodb.org/manual/release-notes/3.0-upgrade/)
+
+### Mac OS X
+
+Recommmended configuration file `/usr/local/etc/mongod.conf` for Homebrew:
+
+```yaml
+storage:
+  dbPath: /usr/local/var/mongodb
+  directoryPerDB: true
+  engine: wiredTiger
+  journal:
+    enabled: true
+
+systemLog:
+  destination: file
+  path: /usr/local/var/log/mongodb/mongo.log
+  logAppend: true
+
+net:
+  bindIp: 127.0.0.1
+```
+
 ## Elastic search
 
 ### Mac OS X
