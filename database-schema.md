@@ -325,6 +325,25 @@ clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
 }
 ```
 
+###type:discussion
+```js
+{
+	_id: mongoid,
+	owner: int,
+	topicid: mongoid,
+	title: string,
+	raw: string,
+	html: string,
+	at: mongodate
+}
+```
+
+###type:topic
+```js
+	_id: mongoid,
+	name: string
+```
+
 ### Index
 
 - ref, deleted, _id(asc)
