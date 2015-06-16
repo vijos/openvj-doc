@@ -356,18 +356,14 @@ server {
     
     location / {
         if (!-e $request_filename) {
-            rewrite . /app.php last;
+            fastcgi_pass  localhost:9000;
+            fastcgi_param SCRIPT_FILENAME openvj/web/app.php;
+            include       fastcgi_params;
         }
     }
 
     error_page 404 /;
 	
-    location ~ \.php$ {
-        fastcgi_pass  localhost:9000;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include       fastcgi_params;
-    }
-
     location ~ ^(.*)(/)(\..+)(.*)$ {
         deny all;
     }
