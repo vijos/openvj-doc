@@ -237,7 +237,7 @@ OpenVJ uses Elastic Search to provide searching feature.
    }'
    ```
 
-## PHP Backend
+## PHP
 
 1. Configure and install PHP 5.6+ if your system doesn't have one.
 
@@ -260,14 +260,14 @@ OpenVJ uses Elastic Search to provide searching feature.
    sudo pecl install redis mongo
    ```
 
-  Ubuntu
+   Ubuntu
 
-  ```sh
-  sudo apt-get update && sudo apt-get install python-software-properties
-  sudo add-apt-repository ppa:ondrej/php5-5.6
-  sudo apt-get install php5
-  sudo pecl install redis mongo
-  ```
+   ```sh
+   sudo apt-get update && sudo apt-get install python-software-properties
+   sudo add-apt-repository ppa:ondrej/php5-5.6
+   sudo apt-get install php5
+   sudo pecl install redis mongo
+   ```
    
    Be sure that you load the extensions in `php.ini`
    
@@ -276,40 +276,117 @@ OpenVJ uses Elastic Search to provide searching feature.
    extension=mongo.so
    ```
 
-2. Install composer & components.
+2. Install composer components.
+
+   OpenVJ uses composer to manage PHP dependencies. You need to [install composer](https://getcomposer.org/doc/00-intro.md) first before executing the following command.
    
    ```sh
    composer install
    ```
 
-3. Install front-end components.
-
-   ```sh
-   cd web
-   npm install
-   bower install
-   gulp shared:ext
-   gulp shared:lib
-   gulp shared:ui
-   gulp shared:core
-   gulp page:scripts
-   ```
-
-4. Set default timezone in `php.ini`.
+3. Set default timezone in `php.ini`.
 
    ```ini
    [Date]
    date.timezone = Asia/Shanghai
    ```
 
-5. Grant write permission
+4. Grant write permission
 
    ```sh
    chmod -R 777 app/cache
    chmod -R 777 app/logs
    ```
 
-## Server Configuration
+## Configuration and system initialization
+
+1. Generate default config file from template
+
+   ```sh
+   # cd openvj
+   php tools/console.php config:init
+   ```
+
+   Then modify `app/config/config.yml` to config the system.
+
+2. Generate communication certificate
+
+   ```sh
+   php tools/console.php cert:generate
+   ```
+
+3. Import some pre-defined variables into the database
+
+   ```sh
+   php tools/console.php db:init
+   ```
+
+4. Create database index
+
+   ```sh
+   php tools/console.php db:index:rebuild
+   ```
+
+## Front-end
+
+You need to run build scripts to build the front-end file from source. OpenVJ uses bower, npm and gulp to manage front-end dependencies and build dist files.
+   
+See [install bower](http://bower.io/#install-bower) and [install gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) for installing instructions.
+
+```sh
+# cd openvj
+cd web
+npm install
+bower install
+gulp shared:ext
+gulp shared:lib
+gulp shared:ui
+gulp shared:core
+gulp page:scripts
+```
+
+## Background Service
+
+OpenVJ separated several tasks from PHP backend to enhance user experience and improve performance.
+
+Background service is written in ECMAScript 6, run on node.js >= 0.12 or io.js with equivalent version.
+
+1. Install node.js >= 0.12.
+
+2. [Install grunt](http://gruntjs.com/getting-started) if you don't have one.
+
+3. Clone the project
+   
+   ```sh
+   git clone https://github.com/vijos/openvj-background
+   cd openvj-background
+   ```
+
+3. Install dependencies
+   
+   ```sh
+   npm install
+   ```
+
+4. Build background service
+
+   ```sh
+   grunt
+   ```
+
+5. Configure
+
+   Copy `config.json.default` to `config.json` and set the peoperty value to your openvj web directory.
+   
+6. Run
+
+   ```sh
+   npm start
+   ```
+   
+   Notice: As a service, you may need no-hup or other similiar utilities to keep it running in the background.
+
+## Web Server Configuration
 
 ### Apache
 
@@ -361,7 +438,7 @@ server {
     }
 
     error_page 404 /;
-	
+
     location ~ \.php$ {
         fastcgi_pass  localhost:9000;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
