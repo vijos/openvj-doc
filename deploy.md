@@ -432,7 +432,7 @@ server {
     root /home/to/project/openvj/web;
     
     location / {
-        if (!-e $request_filename) {
+        if (!-f $request_filename) {
             rewrite . /app.php last;
         }
     }
