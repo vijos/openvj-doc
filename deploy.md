@@ -368,16 +368,16 @@ Background service is written in ECMAScript 6, run on node.js >= 0.12 or io.js w
    npm install
    ```
 
-4. Build background service
+4. Configure
+
+   Copy `config.yml.default` to `config.yml` and set the peoperty value to your openvj web directory.
+   
+5. Build background service
 
    ```sh
    grunt
    ```
 
-5. Configure
-
-   Copy `config.json.default` to `config.json` and set the peoperty value to your openvj web directory.
-   
 6. Run
 
    ```sh
