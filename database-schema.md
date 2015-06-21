@@ -223,6 +223,29 @@ For auto-increasing user collection id.
 | expireat | mongodate   | 过期时间      |
 | data  | document       | 附加数据      |
 
+### For Registration
+
+| field | type           | value       |
+| ----- | -------------- | ----------- |
+| _id   | mongoid        |             |
+| purpose | string       | reg         |
+| identifier | any       | email       |
+| token | string         | token       |
+| expireat | mongodate   | 过期时间      |
+| data  | document       | ['email' => email]|
+
+### For RememberMe
+
+| field | type           | value       |
+| ----- | -------------- | ----------- |
+| _id   | mongoid        |             |
+| purpose | string       | rememberme         |
+| identifier | any       | uid       |
+| token | string         | token       |
+| expireat | mongodate   | 过期时间      |
+| data  | document       | ['uid' => uid, 'ua' => user-agent, 'ip' => ip-address]|
+
+
 ### Index
 
 - purpose, identifier(unique)
@@ -241,26 +264,6 @@ For auto-increasing user collection id.
 
 ### Index
 
-- expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
-
-## RememberMeToken
-
-| field | type           | description |
-| ----- | -------------- | ----------- |
-| _id   | mongoid        |             |
-| uid   | int64          | 用户 ID      |
-| token | string         | Hash(token) |
-| ua    | string         | 记忆时 User-Agent |
-| ip    | string         | 记忆时 IP    |
-| at    | mongodate      | 最后一次使用时间 |
-| expireat | mongodate   | 过期时间      |
-
-其中，token 为 `hash(clientSideToken)`
-clientSideToken 格式为 `{uid}|{expireTimestamp}|{clientToken}`
-
-### Index
-
-- uid, token
 - expireat ([TTLIndex](http://docs.mongodb.org/manual/tutorial/expire-data/#expire-documents-at-a-certain-clock-time))
 
 ## LoginLog
