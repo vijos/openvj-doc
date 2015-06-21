@@ -243,7 +243,7 @@ For auto-increasing user collection id.
 | identifier | any       | uid       |
 | token | string         | token       |
 | expireat | mongodate   | 过期时间      |
-| data  | document       | ['uid' => uid, 'ua' => user-agent, 'ip' => ip-address]|
+| data  | document       | ['uid' => uid, 'ua' => user-agent, 'ip' => ip-address, 'at' => 上次使用时间]|
 
 
 ### Index
